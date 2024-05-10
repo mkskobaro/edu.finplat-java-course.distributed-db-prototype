@@ -1,4 +1,4 @@
-package edu.finplatjavacourse.distributeddbprototype.request.executor;
+package edu.finplatjavacourse.distributeddbprototype.request.response;
 
 
 import edu.finplatjavacourse.distributeddbprototype.entity.Hotel;

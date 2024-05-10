@@ -1,15 +1,22 @@
 package edu.finplatjavacourse.distributeddbprototype.request.response;
 
 
-import edu.finplatjavacourse.distributeddbprototype.request.exception.ResponseTransformerException;
-import edu.finplatjavacourse.distributeddbprototype.request.executor.Response;
+public class SimpleResponseTransformer extends ResponseTransformer {
+    public SimpleResponseTransformer(ResponseTransformer next) {
+        super(next);
+    }
 
+    public SimpleResponseTransformer() {
+        super(null);
+    }
 
-public class SimpleResponseTransformer implements ResponseTransformer {
     @Override
-    public String transform(Response response) {
-        if(response instanceof Response.SimpleResponse simpleResponse)
-            return simpleResponse.ok() ? "OK" : "FAIL";
-        throw new ResponseTransformerException("Response should be instance of Response.SimpleResponse. Given: " + response.getClass().getName());
+    protected String transform0(Response response) {
+        return ((Response.SimpleResponse) response).ok() ? "OK" : "FAIL";
+    }
+
+    @Override
+    protected boolean canTransform(Response response) {
+        return response instanceof Response.SimpleResponse;
     }
 }

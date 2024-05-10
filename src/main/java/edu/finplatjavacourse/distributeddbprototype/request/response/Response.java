@@ -1,4 +1,4 @@
-package edu.finplatjavacourse.distributeddbprototype.request.executor;
+package edu.finplatjavacourse.distributeddbprototype.request.response;
 
 
 public interface Response {
@@ -10,7 +10,16 @@ public interface Response {
         return new SimpleResponse(isOk);
     }
 
+    static Response idAlreadyExistsResponse() {
+        return new AlreadyExistsResponse("id");
+    }
+
+    /* Simple responses */
+
     record SimpleResponse(boolean ok) implements Response {
+    }
+
+    record AlreadyExistsResponse(String fieldName) implements Response {
     }
 }
 

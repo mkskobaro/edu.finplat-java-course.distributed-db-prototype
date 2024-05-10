@@ -7,6 +7,7 @@ import edu.finplatjavacourse.distributeddbprototype.request.executor.StatementEx
 import edu.finplatjavacourse.distributeddbprototype.request.executor.WriteStatementExecutor;
 import edu.finplatjavacourse.distributeddbprototype.request.parsing.RequestParser;
 import edu.finplatjavacourse.distributeddbprototype.request.parsing.impl.WriteRequestParser;
+import edu.finplatjavacourse.distributeddbprototype.request.response.AlreadyExistsResponseTransformer;
 import edu.finplatjavacourse.distributeddbprototype.request.response.ResponseTransformer;
 import edu.finplatjavacourse.distributeddbprototype.request.response.SimpleResponseTransformer;
 
@@ -37,6 +38,8 @@ public class MainRunner {
     }
 
     private static ResponseTransformer responseTransformerChain() {
-        return new SimpleResponseTransformer();
+        return new SimpleResponseTransformer(
+                new AlreadyExistsResponseTransformer()
+        );
     }
 }

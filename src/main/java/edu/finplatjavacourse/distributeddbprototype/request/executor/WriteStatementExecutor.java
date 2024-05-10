@@ -3,6 +3,7 @@ package edu.finplatjavacourse.distributeddbprototype.request.executor;
 
 import edu.finplatjavacourse.distributeddbprototype.request.parsing.Statement;
 import edu.finplatjavacourse.distributeddbprototype.request.parsing.impl.WriteStatement;
+import edu.finplatjavacourse.distributeddbprototype.request.response.Response;
 
 
 public class WriteStatementExecutor extends StatementExecutor {
