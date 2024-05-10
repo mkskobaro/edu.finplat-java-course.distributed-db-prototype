@@ -4,7 +4,7 @@ package edu.finplatjavacourse.distributeddbprototype.request;
 import edu.finplatjavacourse.distributeddbprototype.request.exception.ParsingException;
 import edu.finplatjavacourse.distributeddbprototype.request.exception.ResponseTransformerException;
 import edu.finplatjavacourse.distributeddbprototype.request.exception.StatementProcessingException;
-import edu.finplatjavacourse.distributeddbprototype.request.executor.Response;
+import edu.finplatjavacourse.distributeddbprototype.request.response.Response;
 import edu.finplatjavacourse.distributeddbprototype.request.executor.StatementExecutor;
 import edu.finplatjavacourse.distributeddbprototype.request.parsing.RequestParser;
 import edu.finplatjavacourse.distributeddbprototype.request.parsing.Statement;
