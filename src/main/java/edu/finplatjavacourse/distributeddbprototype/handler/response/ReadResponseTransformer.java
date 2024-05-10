@@ -15,8 +15,8 @@ public class ReadResponseTransformer extends ResponseTransformer {
         StringBuilder builder = new StringBuilder();
 
         ((ReadResponse) response).getHotels().forEach(hotel -> {
-            builder.append(hotel.getId()).append(" ");
-            builder.append("\"").append(hotel.getName()).append("\"").append(" ");
+            builder.append(hotel.getId()).append(", ");
+            builder.append("\"").append(hotel.getName()).append("\"").append(", ");
             builder.append(hotel.getPrice()).append("\n");
         });
 
