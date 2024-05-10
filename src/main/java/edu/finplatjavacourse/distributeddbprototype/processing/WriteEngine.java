@@ -1,5 +1,6 @@
 package edu.finplatjavacourse.distributeddbprototype.processing;
 
+import edu.finplatjavacourse.distributeddbprototype.handler.exception.ExecutionException;
 import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.WriteStatement;
 import edu.finplatjavacourse.distributeddbprototype.handler.response.Response;
 
@@ -32,7 +33,7 @@ public class WriteEngine {
                 }
                 dataFile.close();
             } catch (IOException ioExc) {
-                throw new IOException("Error while reading unique keys from file");
+                throw new ExecutionException("Error while reading unique keys from file", ioExc);
             }
         }
         return instance;
