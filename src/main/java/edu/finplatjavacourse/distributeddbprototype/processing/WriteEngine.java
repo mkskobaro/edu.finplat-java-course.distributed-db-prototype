@@ -1,6 +1,7 @@
 package edu.finplatjavacourse.distributeddbprototype.processing;
 
 import edu.finplatjavacourse.distributeddbprototype.handler.exception.ExecutionException;
+import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.CheckStatement;
 import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.WriteStatement;
 import edu.finplatjavacourse.distributeddbprototype.handler.response.Response;
 
@@ -39,6 +40,14 @@ public class WriteEngine {
         return instance;
     }
 
+    public Response checkPutKey(CheckStatement checkStatement) {
+        if (!uniqueKeys.contains(checkStatement.id())){
+            return Response.simpleResponse(true);
+        }
+        else {
+            return Response.idAlreadyExistsResponse();
+        }
+    }
     public Response write(WriteStatement writeStatement) {
         if (!uniqueKeys.contains(writeStatement.id())){
             try {
