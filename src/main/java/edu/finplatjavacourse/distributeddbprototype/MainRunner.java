@@ -8,9 +8,6 @@ import edu.finplatjavacourse.distributeddbprototype.handler.executor.ReadStateme
 import edu.finplatjavacourse.distributeddbprototype.handler.executor.StatementExecutor;
 import edu.finplatjavacourse.distributeddbprototype.handler.executor.WriteStatementExecutor;
 import edu.finplatjavacourse.distributeddbprototype.handler.parsing.RequestParser;
-import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.CheckRequestParser;
-import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.ReadRequestParser;
-import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.WriteRequestParser;
 import edu.finplatjavacourse.distributeddbprototype.handler.response.AlreadyExistsResponseTransformer;
 import edu.finplatjavacourse.distributeddbprototype.handler.response.ReadResponseTransformer;
 import edu.finplatjavacourse.distributeddbprototype.handler.response.ResponseTransformer;
@@ -53,7 +50,11 @@ public class MainRunner {
     }
 
     private static RequestParser requestParserChain() {
-        return new ReadRequestParser(new CheckRequestParser(new WriteRequestParser()));
+        return RequestParser.readRequestParser(
+                RequestParser.checkRequestParser(
+                        RequestParser.writeRequestParser(null)
+                )
+        );
     }
 
     private static StatementExecutor statementExecutorChain() {
