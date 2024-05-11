@@ -10,6 +10,8 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
 
 public class WriteEngine {
@@ -25,6 +27,9 @@ public class WriteEngine {
         if (instance == null) {
             instance = new WriteEngine();
             try {
+                if (!Files.exists(Path.of("data"))){
+                    Files.createDirectory(Path.of("data"));
+                }
                 RandomAccessFile dataFile = new RandomAccessFile(FILEPATH, "rw");
                 String line;
                 while ((line = dataFile.readLine()) != null){
