@@ -4,10 +4,12 @@ package edu.finplatjavacourse.distributeddbprototype.handler.executor;
 import edu.finplatjavacourse.distributeddbprototype.handler.parsing.Statement;
 import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.CheckStatement;
 import edu.finplatjavacourse.distributeddbprototype.handler.response.Response;
+import edu.finplatjavacourse.distributeddbprototype.processing.WriteEngine;
+
+import java.io.IOException;
 
 
 public class CheckStatementExecutor extends StatementExecutor {
-    // TODO: Checker field
 
     public CheckStatementExecutor(StatementExecutor next) {
         super(next);
@@ -24,7 +26,10 @@ public class CheckStatementExecutor extends StatementExecutor {
 
     @Override
     protected Response process(Statement statement) {
-        // TODO: return Checker.doSomething((CheckStatement) statement)
-        return Response.simpleResponse(false);
+        try {
+            return WriteEngine.getInstance().checkPutKey((CheckStatement) statement);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
