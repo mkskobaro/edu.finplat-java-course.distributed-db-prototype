@@ -36,8 +36,8 @@ public class MainRunner {
         System.out.println("=======\"PUT 100, \\\"Hotel 123 \\\", dsafa54\"=========");
         System.out.println(requestHandler.handle("PUT 100, \"Hotel 123 \", dsafa54")); // should be invalid since bad validated
 
-        System.out.println("=======\"GET \\\"123\\\"\"=========");
-        System.out.println(requestHandler.handle("GET \"123\"")); // should be valid
+        System.out.println("=======\"GET \\\"2\\\"\"=========");
+        System.out.println(requestHandler.handle("GET \"2\"")); // should be valid
         System.out.println("=======\"GET adsfasdfasdf\"=========");
         System.out.println(requestHandler.handle("GET adsfasdfasdf")); // should be invalid
 
