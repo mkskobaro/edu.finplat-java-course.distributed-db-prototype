@@ -41,8 +41,10 @@ public class MainRunner {
         System.out.println("=======\"GET adsfasdfasdf\"=========");
         System.out.println(requestHandler.handle("GET adsfasdfasdf")); // should be invalid
 
+        System.out.println("=======\"CHECK PUT 222, \\\"Hotel 321\\\", 100\"=========");
+        System.out.println(requestHandler.handle("CHECK PUT 222, \"Hotel 321\", 100")); // should be valid
         System.out.println("=======\"CHECK PUT 321, \\\"Hotel 321\\\", 100\"=========");
-        System.out.println(requestHandler.handle("CHECK PUT 321, \"Hotel 321\", 100")); // should be valid
+        System.out.println(requestHandler.handle("CHECK PUT 321, \"Hotel 321\", 100")); // should be invalid since such id already exists
         System.out.println("=======\"CHECK GET adsfasdfasdf\"=========");
         System.out.println(requestHandler.handle("CHECK GET adsfasdfasdf")); // should be invalid
         System.out.println("=======\"CHECK PUT adsfasdfasdf\"=========");
