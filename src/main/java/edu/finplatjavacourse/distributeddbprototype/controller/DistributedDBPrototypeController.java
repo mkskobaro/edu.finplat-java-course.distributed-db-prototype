@@ -22,7 +22,6 @@ import javax.ws.rs.core.Response;
 
 @Path("/")
 public class DistributedDBPrototypeController {
-
     private final RequestHandler requestHandler;
 
     @Inject
@@ -35,7 +34,7 @@ public class DistributedDBPrototypeController {
     @Produces(MediaType.TEXT_PLAIN)
     public Response get(@PathParam(value = "query") String query){
         String result = requestHandler.handle(query);
-        if (result.equals("BAD REQUEST"))
+        if (result.equals("BAD REQUEST") || result.startsWith("FAIL"))
             return Response.status(Response.Status.BAD_REQUEST).entity(result).build();
         if (result.equals("INTERNAL ERROR"))
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(result).build();
@@ -47,7 +46,7 @@ public class DistributedDBPrototypeController {
     @Produces(MediaType.TEXT_PLAIN)
     public Response post(String query){
         String result = requestHandler.handle(query);
-        if (result.equals("BAD REQUEST"))
+        if (result.equals("BAD REQUEST") || result.startsWith("FAIL"))
             return Response.status(Response.Status.BAD_REQUEST).entity(result).build();
         if (result.equals("INTERNAL ERROR"))
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(result).build();
