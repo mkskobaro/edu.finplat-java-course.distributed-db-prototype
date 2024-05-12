@@ -3,11 +3,13 @@ package edu.finplatjavacourse.distributeddbprototype.controller;
 import edu.finplatjavacourse.distributeddbprototype.handler.RequestHandler;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/")
+@Singleton
 public class DistributedDBPrototypeController {
     private final RequestHandler requestHandler;
 
