@@ -1,9 +1,11 @@
 package edu.finplatjavacourse.distributeddbprototype.processing;
 
+import edu.finplatjavacourse.distributeddbprototype.entity.Hotel;
 import edu.finplatjavacourse.distributeddbprototype.handler.exception.ExecutionException;
 import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.CheckStatement;
 import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.WriteStatement;
 import edu.finplatjavacourse.distributeddbprototype.handler.response.Response;
+import edu.finplatjavacourse.distributeddbprototype.processing.searchservice.SearchService;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -16,30 +18,34 @@ import java.util.HashSet;
 
 public class WriteEngine {
 
-    private static final String FILEPATH = "data/hotel-list.txt";
+    private final String FILEPATH = "data/hotel-list.txt";
     private static WriteEngine instance;
-    private static HashSet<Long> uniqueKeys = new HashSet<>();
-    private static long lineNum = 0L;
+    private HashSet<Long> uniqueKeys = new HashSet<>();
+    private long lineNum = 0L;
 
-    private WriteEngine(){}
+    private WriteEngine() {
+        if (!Files.exists(Path.of("data"))) {
+            try {
+                Files.createDirectory(Path.of("data"));
+            }
+            catch (IOException ioExc) {
+                throw new ExecutionException("Exception while creating directory", ioExc);
+            }
+        }
+        try (RandomAccessFile dataFile = new RandomAccessFile(FILEPATH, "rw")) {
+            String line;
+            while ((line = dataFile.readLine()) != null) {
+                uniqueKeys.add(Long.parseLong(line.substring(0, line.indexOf(","))));
+                lineNum++;
+            }
+        } catch (IOException ioExc) {
+            throw new ExecutionException("Exception while reading unique keys from file", ioExc);
+        }
+    }
 
-    public static WriteEngine getInstance() throws IOException {
+    public static WriteEngine getInstance() {
         if (instance == null) {
             instance = new WriteEngine();
-            try {
-                if (!Files.exists(Path.of("data"))){
-                    Files.createDirectory(Path.of("data"));
-                }
-                RandomAccessFile dataFile = new RandomAccessFile(FILEPATH, "rw");
-                String line;
-                while ((line = dataFile.readLine()) != null){
-                    uniqueKeys.add(Long.parseLong(line.substring(0, line.indexOf(","))));
-                    lineNum++;
-                }
-                dataFile.close();
-            } catch (IOException ioExc) {
-                throw new ExecutionException("Error while reading unique keys from file", ioExc);
-            }
         }
         return instance;
     }
@@ -52,6 +58,7 @@ public class WriteEngine {
             return Response.idAlreadyExistsResponse();
         }
     }
+
     public Response write(WriteStatement writeStatement) {
         if (!uniqueKeys.contains(writeStatement.id())) {
             try {
@@ -60,7 +67,6 @@ public class WriteEngine {
             catch (IOException ioExc){
                 return Response.simpleResponse(false);
             }
-            //TODO: pass new key to search and line num
             return Response.simpleResponse(true);
         }
         else {
@@ -69,10 +75,10 @@ public class WriteEngine {
     }
 
     private void writeToFile(WriteStatement writeStatement) throws IOException {
-        try {
-            RandomAccessFile dataFile = new RandomAccessFile(FILEPATH, "rw");
+        try (RandomAccessFile dataFile = new RandomAccessFile(FILEPATH, "rw")) {
             FileChannel fileChannel = dataFile.getChannel();
-            FileLock fileLock = null;
+            FileLock fileLock;
+
             try {
                 fileLock = fileChannel.tryLock();
             }
@@ -83,7 +89,6 @@ public class WriteEngine {
             }
 
             StringBuilder stringBuilder = new StringBuilder();
-
             stringBuilder.append(writeStatement.id())
                         .append(", \"")
                         .append(writeStatement.name())
@@ -95,13 +100,11 @@ public class WriteEngine {
             dataFile.writeBytes(stringBuilder.toString());
 
             fileLock.release();
-            dataFile.close();
             fileChannel.close();
+
             uniqueKeys.add(writeStatement.id());
             lineNum++;
-        }
-        catch (IOException ioExc){
-            throw new IOException("Error while opening file to write");
+            SearchService.getInstance().addData(new Hotel(writeStatement.id(), writeStatement.name(), writeStatement.price()), lineNum);
         }
     }
 }
