@@ -22,6 +22,7 @@ public class SearchService {
     }
 
     public  ReadResponse getStringFromCacheOrSearchSubstring(ReadStatement readStatement) {
+        HashWorker.getInstance();
         List<Hotel> hashData = HashWorker.getInstance().getHashData(readStatement.searchOn());
         if (hashData != null)
             return ReadResponse.builder().hotels(hashData).build();
