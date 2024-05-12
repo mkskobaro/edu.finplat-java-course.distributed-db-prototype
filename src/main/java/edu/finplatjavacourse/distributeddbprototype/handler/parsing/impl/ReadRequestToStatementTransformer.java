@@ -8,6 +8,6 @@ import edu.finplatjavacourse.distributeddbprototype.handler.parsing.Statement;
 public class ReadRequestToStatementTransformer implements RequestToStatementTransformer {
     @Override
     public Statement transform(String request) {
-        return new ReadStatement(request.substring(4));
+        return new ReadStatement(request.substring(5, request.length()-1));
     }
 }

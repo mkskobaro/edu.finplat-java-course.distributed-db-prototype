@@ -6,8 +6,6 @@ import edu.finplatjavacourse.distributeddbprototype.handler.parsing.impl.CheckSt
 import edu.finplatjavacourse.distributeddbprototype.handler.response.Response;
 import edu.finplatjavacourse.distributeddbprototype.processing.WriteEngine;
 
-import java.io.IOException;
-
 
 public class CheckStatementExecutor extends StatementExecutor {
 
@@ -26,10 +24,6 @@ public class CheckStatementExecutor extends StatementExecutor {
 
     @Override
     protected Response process(Statement statement) {
-        try {
-            return WriteEngine.getInstance().checkPutKey((CheckStatement) statement);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return WriteEngine.getInstance().checkPutKey((CheckStatement) statement);
     }
 }
