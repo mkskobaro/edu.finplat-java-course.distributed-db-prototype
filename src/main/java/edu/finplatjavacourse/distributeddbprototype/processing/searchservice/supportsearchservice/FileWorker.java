@@ -24,6 +24,7 @@ public class FileWorker {
         }
         long id = Long.parseLong(parts[0].trim());
         String name = parts[1].trim();
+        name=name.substring(1,name.length()-1);
         long price = Long.parseLong(parts[2].trim());
         Hotel hotel = new Hotel(id, name, price);
         return hotel;
